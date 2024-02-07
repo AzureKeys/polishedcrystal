@@ -1,6 +1,10 @@
 MoveDescriptions::
 ; entries correspond to move ids (see constants/move_constants.asm)
-	table_width 2, MoveDescriptions
+	indirect_table 2, 1
+	indirect_entries NUM_ATTACKS, MoveDescriptions1
+	indirect_table_end
+	
+MoveDescriptions1:
 	dw AcrobaticsDescription
 	dw KarateChopDescription
 	dw DoubleSlapDescription
@@ -256,10 +260,9 @@ MoveDescriptions::
 	dw PlayRoughDescription
 	dw DisarmVoiceDescription
 	dw StruggleDescription
-	assert_table_length NUM_ATTACKS
-	dw Move00Description
-	assert_table_length $100
+.IndirectEnd::
 
+InvalidMoveDescription:
 Move00Description:
 	text "?"
 	done

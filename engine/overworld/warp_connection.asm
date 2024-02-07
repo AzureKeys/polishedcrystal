@@ -1,6 +1,7 @@
 HandleNewMap:
 	call ResetOWMapState
 	call GetCurrentMapSceneID
+	call ResetMapLockedIDs
 	ld a, MAPCALLBACK_NEWMAP
 	call RunMapCallback
 HandleContinueMap:
@@ -470,6 +471,9 @@ GetMapScreenCoords::
 	ld a, [wXCoord]
 	and $1
 	ld [wMetatileStandingX], a
+	ret
+	
+ResetMapLockedIDs:
 	ret
 
 INCLUDE "data/maps/dual_connections.asm"

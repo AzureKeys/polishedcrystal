@@ -4,7 +4,7 @@ hScriptVar:: dw
 
 hROMBank:: db
 hROMBankBackup:: db
-	ds 1 ; unused
+hSRAMBank:: db
 
 hHours:: db
 hMinutes:: db

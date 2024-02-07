@@ -16,11 +16,14 @@ sOptions:: ds wOptionsEnd - wOptions
 
 sCheckValue1:: db ; loaded with 99, used to check save corruption
 
+sSaveData::
 sGameData::
 sPlayerData::  ds wPlayerDataEnd - wPlayerData
 sMapData::     ds wCurMapDataEnd - wCurMapData
 sPokemonData:: ds wPokemonDataEnd - wPokemonData
 sGameDataEnd::
+
+sSaveDataEnd::
 
 sOptions3:: db
 
@@ -42,11 +45,14 @@ sBackupOptions:: ds wOptionsEnd - wOptions
 
 sBackupCheckValue1:: db ; loaded with 99, used to check save corruption
 
+sBackupSaveData::
 sBackupGameData::
 sBackupPlayerData::  ds wPlayerDataEnd - wPlayerData
 sBackupMapData::     ds wCurMapDataEnd - wCurMapData
 sBackupPokemonData:: ds wPokemonDataEnd - wPokemonData
 sBackupGameDataEnd::
+
+sBackupSaveDataEnd::
 
 sBackupOptions3:: db
 

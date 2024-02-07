@@ -544,10 +544,18 @@ LearnEvolutionMove:
 	call GetSpeciesAndFormIndex
 	ld hl, EvolutionMoves
 	add hl, bc
-	ld a, [hl]
+	ld a, [hli]
 	and a
 	ret z
-
+	
+	ld e, a
+	ld a, [hl]
+	ld d, a
+	push hl
+	ld h, d
+	ld l, e
+	call GetMoveIDFromIndex
+	pop hl
 	ld d, a
 	ld hl, wPartyMon1Moves
 	ld a, [wCurPartyMon]
@@ -591,16 +599,21 @@ LearnLevelMoves:
 
 .find_move
 	ld a, [hli]
-	inc a
+	and a
 	ret z
-	dec a
 	ld b, a
 	ld a, [wCurPartyLevel]
 	cp b
 	ld a, [hli]
+	ld e, a
+	ld a, [hli]
+	ld d, a
 	jr nz, .find_move
 
 	push hl
+	ld h, d
+	ld l, e
+	call GetMoveIDFromIndex
 	ld d, a
 	ld hl, wPartyMon1Moves
 	ld a, [wCurPartyMon]
@@ -647,6 +660,7 @@ FillMoves:
 	pop de
 .GetMove:
 	inc hl
+	inc hl
 .GetLevel:
 	ld a, [hli]
 	and a
@@ -665,6 +679,10 @@ FillMoves:
 .CheckMove:
 	push de
 	ld c, NUM_MOVES
+	push hl
+	call GetFarWord
+	call GetMoveIDFromIndex
+	pop hl
 .CheckRepeat:
 	ld a, [de]
 	inc de
@@ -704,6 +722,10 @@ FillMoves:
 
 .LearnMove:
 	ld a, [hl]
+	push hl
+	call GetFarWord
+	call GetMoveIDFromIndex
+	pop hl
 	ld [de], a
 	ld a, [wEvolutionOldSpecies]
 	and a

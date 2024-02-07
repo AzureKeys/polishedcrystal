@@ -1497,6 +1497,11 @@ wPokeAnimBitmaskBuffer:: db
 wPokeAnimStructEnd::
 
 
+SECTION "16-bit WRAM tables", WRAMX
+; align this section to $100
+	wram_conversion_table wMoveIndexTable, MOVE_TABLE
+
+
 SECTION "Used Storage", WRAMX
 
 wPokeDB1UsedEntries:: flag_array MONDB_ENTRIES

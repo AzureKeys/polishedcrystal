@@ -711,3 +711,8 @@ SECTION "Dynamic Pals System", ROMX
 
 INCLUDE "engine/gfx/sprite_palettes.asm"
 INCLUDE "engine/gfx/dynamic_pals.asm"
+
+
+SECTION "16-bit ID stuff", ROMX
+
+INCLUDE "engine/16/table_functions.asm"

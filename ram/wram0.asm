@@ -876,7 +876,7 @@ wFootprintQueue:: ds 3 * 2 + 1
 
 SECTION "Unused", WRAM0
 
-	ds 69 ; it's free real estate
+	ds 49 ; it's free real estate
 
 
 SECTION UNION "Misc 1326", WRAM0
@@ -1392,6 +1392,8 @@ wSecondsSince:: db
 wMinutesSince:: db
 wHoursSince:: db
 wDaysSince:: db
+	
+wTempLoopCounter:: db
 
 ; Temporary backup for options
 wOptionsBuffer:: db
@@ -1402,3 +1404,8 @@ SECTION "Rom Checksum", WRAM0
 ; protection against people trying to load a save state for a save in
 ; a different rom version.
 wRomChecksum:: dw
+
+SECTION "16-bit WRAM home data", WRAM0
+; align to $20
+
+wConversionTableBitmap:: ds $20

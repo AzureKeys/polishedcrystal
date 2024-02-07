@@ -795,3 +795,17 @@ DecompressString::
 	ldh a, [hPlaceStringCoords+1]
 	ld h, a
 	ret
+	
+FarPlaceString::
+	ld c, a
+	ldh a, [hROMBank]
+	ld b, a
+	ld a, c
+	rst Bankswitch
+
+	push bc
+	call PlaceString
+
+	pop af
+	rst Bankswitch
+	ret

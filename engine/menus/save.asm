@@ -37,8 +37,10 @@ SaveAfterLinkTrade:
 	call SetWRAMStateForSave
 	call StageRTCTimeForSave
 	call SavePokemonData
+	call SaveIndexTables
 	call SaveChecksum
 	call SaveBackupPokemonData
+	call SaveBackupIndexTables
 	call SaveBackupChecksum
 	farcall BackupPartyMonMail
 	call SaveRTC
@@ -151,6 +153,7 @@ SaveGameData::
 	call SaveOptions
 	call SavePlayerData
 	call SavePokemonData
+	call SaveIndexTables
 
 	; This function is never called mid-Battle Tower (only in the beginning).
 	; So this is always a safe action, and gets rid of potential old BT state
@@ -189,6 +192,7 @@ WriteBackupSave:
 	call SaveBackupOptions
 	call SaveBackupPlayerData
 	call SaveBackupPokemonData
+	call SaveBackupIndexTables
 	call SaveBackupChecksum
 
 	; Finished saving.
@@ -302,9 +306,9 @@ SavePokemonData:
 	jmp CloseSRAM
 
 SaveChecksum:
-	ld hl, sGameData
-	ld bc, sGameDataEnd - sGameData
-	ld a, BANK(sGameData)
+	ld hl, sSaveData
+	ld bc, sSaveDataEnd - sSaveData
+	ld a, BANK(sSaveData)
 	call GetSRAMBank
 	call Checksum
 	ld a, e
@@ -356,9 +360,9 @@ SaveBackupPokemonData:
 	jmp CloseSRAM
 
 SaveBackupChecksum:
-	ld hl, sBackupGameData
-	ld bc, sBackupGameDataEnd - sBackupGameData
-	ld a, BANK(sBackupGameData)
+	ld hl, sBackupSaveData
+	ld bc, sBackupSaveDataEnd - sBackupSaveData
+	ld a, BANK(sBackupSaveData)
 	call GetSRAMBank
 	call Checksum
 	ld a, e
@@ -390,6 +394,7 @@ TryLoadSaveFile:
 	jr nz, .backup
 	call LoadPlayerData
 	call LoadPokemonData
+	call LoadIndexTables
 
 	; If a mid-save was aborted but main save data is good, finish it.
 	call WasMidSaveAborted
@@ -407,6 +412,7 @@ TryLoadSaveFile:
 	jr nz, .corrupt
 	call LoadBackupPlayerData
 	call LoadBackupPokemonData
+	call LoadBackupIndexTables
 	farcall RestorePartyMonMail
 	call LoadStorageSystem
 	call SaveGameData
@@ -546,9 +552,9 @@ LoadPokemonData:
 	jmp CloseSRAM
 
 VerifyChecksum:
-	ld hl, sGameData
-	ld bc, sGameDataEnd - sGameData
-	ld a, BANK(sGameData)
+	ld hl, sSaveData
+	ld bc, sSaveDataEnd - sSaveData
+	ld a, BANK(sSaveData)
 	call GetSRAMBank
 	call Checksum
 	ld a, [sChecksum + 0]
@@ -585,9 +591,9 @@ LoadBackupPokemonData:
 	jmp CloseSRAM
 
 VerifyBackupChecksum:
-	ld hl, sBackupGameData
-	ld bc, sBackupGameDataEnd - sBackupGameData
-	ld a, BANK(sBackupGameData)
+	ld hl, sBackupSaveData
+	ld bc, sBackupSaveDataEnd - sBackupSaveData
+	ld a, BANK(sBackupSaveData)
 	call GetSRAMBank
 	call Checksum
 	ld a, [sBackupChecksum + 0]
@@ -725,3 +731,15 @@ SaveCurrentVersion:
 	ld a, LOW(SAVE_VERSION)
 	ld [sSaveVersion + 1], a
 	jmp CloseSRAM
+	
+SaveIndexTables:
+	ret
+	
+SaveBackupIndexTables:
+	ret
+	
+LoadIndexTables:
+	ret
+	
+LoadBackupIndexTables:
+	ret
